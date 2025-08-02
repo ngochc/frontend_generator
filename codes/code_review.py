@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-"""
-Code Review Script - AI-Powered Code Analysis
-Provides automated code review and suggestions for generated React applications.
-"""
-
 from openai import OpenAI
 import os
 import argparse
@@ -11,18 +5,22 @@ import sys
 from pathlib import Path
 import json
 
-def parse_arguments():
-    parser = argparse.ArgumentParser(description="AI-powered code review for React applications")
-    
-    parser.add_argument('--project_path', type=str, required=True, help='Path to the React project')
-    parser.add_argument('--gpt_version', type=str, default="gpt-4", help='OpenAI model version')
-    parser.add_argument('--review_focus', type=str, default="performance,accessibility,security", 
-                       help='Comma-separated focus areas: performance,accessibility,security,maintainability,testing')
-    parser.add_argument('--output_format', type=str, default="markdown", 
-                       choices=["markdown", "json"], help='Output format')
-    parser.add_argument('--output_file', type=str, default="", help='Output file path (optional)')
-    
-    return parser.parse_args()
+parser = argparse.ArgumentParser()
+parser.add_argument('--project_path', type=str, required=True)
+parser.add_argument('--gpt_version', type=str, default="gpt-4")
+parser.add_argument('--review_focus', type=str, default="performance,accessibility,security")
+parser.add_argument('--output_format', type=str, default="markdown", choices=["markdown", "json"])
+parser.add_argument('--output_file', type=str, default="")
+
+args = parser.parse_args()
+
+client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+
+project_path = args.project_path
+gpt_version = args.gpt_version
+review_focus = args.review_focus
+output_format = args.output_format
+output_file = args.output_file
 
 def analyze_code_files(project_path):
     """Analyze React code files in the project."""
@@ -98,7 +96,7 @@ For each finding, include:
     
     return system_prompt, user_prompt
 
-def conduct_code_review(client, code_files, review_focus, gpt_version):
+def conduct_code_review(code_files):
     """Conduct code review using OpenAI."""
     
     system_prompt, user_prompt = generate_review_prompt(code_files, review_focus)
@@ -110,7 +108,7 @@ def conduct_code_review(client, code_files, review_focus, gpt_version):
                 {'role': 'system', 'content': system_prompt},
                 {'role': 'user', 'content': user_prompt}
             ],
-            temperature=0.1,  # Low temperature for consistent analysis
+            temperature=0.1,
             max_tokens=6000
         )
         
@@ -120,7 +118,7 @@ def conduct_code_review(client, code_files, review_focus, gpt_version):
         print(f"❌ Code review failed: {str(e)}")
         return None
 
-def format_review_output(review_content, output_format):
+def format_review_output(review_content):
     """Format the review output."""
     
     if output_format == "json":
@@ -145,64 +143,51 @@ def format_review_output(review_content, output_format):
 """
         return header + review_content
 
-def main():
-    args = parse_arguments()
-    
-    # Initialize OpenAI client
-    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-    
-    if not client.api_key:
-        print("❌ Error: OPENAI_API_KEY environment variable not set")
-        sys.exit(1)
-    
-    # Validate project path
-    if not os.path.exists(args.project_path):
-        print(f"❌ Error: Project path not found: {args.project_path}")
-        sys.exit(1)
-    
-    print(f"🔍 AI Code Review")
-    print(f"=====================================")
-    print(f"📁 Project: {args.project_path}")
-    print(f"🤖 Model: {args.gpt_version}")
-    print(f"🎯 Focus: {args.review_focus}")
-    print(f"📄 Format: {args.output_format}")
-    print(f"=====================================\n")
-    
-    # Analyze code files
-    print("📊 Analyzing code files...")
-    code_files = analyze_code_files(args.project_path)
-    print(f"Found {len(code_files)} code files")
-    
-    if not code_files:
-        print("❌ No code files found to review")
-        sys.exit(1)
-    
-    # Conduct review
-    print("🚀 Conducting AI code review...")
-    review_content = conduct_code_review(client, code_files, args.review_focus, args.gpt_version)
-    
-    if not review_content:
-        print("❌ Code review failed")
-        sys.exit(1)
-    
-    # Format output
-    formatted_review = format_review_output(review_content, args.output_format)
-    
-    # Save or display results
-    if args.output_file:
-        try:
-            with open(args.output_file, 'w', encoding='utf-8') as f:
-                f.write(formatted_review)
-            print(f"✅ Review saved to: {args.output_file}")
-        except Exception as e:
-            print(f"❌ Failed to save review: {str(e)}")
-    else:
-        print("\n" + "="*50)
-        print("📋 CODE REVIEW RESULTS")
-        print("="*50)
-        print(formatted_review)
-    
-    print(f"\n🎉 Code Review Completed!")
+# Validate project path
+if not os.path.exists(project_path):
+    print(f"❌ Error: Project path not found: {project_path}")
+    sys.exit(1)
 
-if __name__ == "__main__":
-    main()
+print(f"🔍 AI Code Review")
+print(f"=====================================")
+print(f"📁 Project: {project_path}")
+print(f"🤖 Model: {gpt_version}")
+print(f"🎯 Focus: {review_focus}")
+print(f"📄 Format: {output_format}")
+print(f"=====================================\n")
+
+# Analyze code files
+print("📊 Analyzing code files...")
+code_files = analyze_code_files(project_path)
+print(f"Found {len(code_files)} code files")
+
+if not code_files:
+    print("❌ No code files found to review")
+    sys.exit(1)
+
+# Conduct review
+print("🚀 Conducting AI code review...")
+review_content = conduct_code_review(code_files)
+
+if not review_content:
+    print("❌ Code review failed")
+    sys.exit(1)
+
+# Format output
+formatted_review = format_review_output(review_content)
+
+# Save or display results
+if output_file:
+    try:
+        with open(output_file, 'w', encoding='utf-8') as f:
+            f.write(formatted_review)
+        print(f"✅ Review saved to: {output_file}")
+    except Exception as e:
+        print(f"❌ Failed to save review: {str(e)}")
+else:
+    print("\n" + "="*50)
+    print("📋 CODE REVIEW RESULTS")
+    print("="*50)
+    print(formatted_review)
+
+print(f"\n🎉 Code Review Completed!")

@@ -114,7 +114,7 @@ echo ""
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo "Generating test suite with OpenAI..."
     
-    python ../codes/generate_tests.py \
+    python ../codes/4_testing.py \
         --project_name "$PROJECT_NAME" \
         --gpt_version "gpt-4" \
         --project_path "$REPO_OUTPUT_DIR/${PROJECT_NAME}_frontend" \

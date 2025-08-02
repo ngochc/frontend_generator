@@ -96,8 +96,8 @@ frontend_generator/
 │   ├── 2_analyzing_llm.py     # Analysis with vLLM support
 │   ├── 3_coding.py            # Coding stage implementation
 │   ├── 3_coding_llm.py        # Coding with vLLM support
-│   ├── generate_tests.py      # Test generation with OpenAI
-│   ├── generate_tests_llm.py  # Test generation with vLLM
+│   ├── 4_testing.py           # Test generation with OpenAI
+│   ├── 4_testing_llm.py       # Test generation with vLLM
 │   ├── code_review.py         # AI-powered code review
 │   └── utils.py               # Shared utilities
 ├── examples/                   # Sample requirements
@@ -257,9 +257,10 @@ echo "3.11.7" > .python-version
 5. **Generate tests using LLM** (optional):
    ```bash
    # Generate comprehensive test suite
-   python ../codes/generate_tests.py \
+   python ../codes/4_testing.py \
      --project_name "MyTodoApp" \
      --project_path "output/MyTodoApp_frontend" \
+     --requirements_path "my_app_requirements.md" \
      --test_types "unit,integration,e2e"
    
    # Run the generated tests
@@ -295,6 +296,16 @@ python codes/3_coding.py \
   --requirements_path "requirements.md" \
   --analysis_context "output/analysis.json" \
   --output_dir "output"
+```
+
+#### Testing Stage
+```bash
+python codes/4_testing.py \
+  --project_name "MyApp" \
+  --project_path "output/MyApp_frontend" \
+  --requirements_path "requirements.md" \
+  --test_types "unit,integration" \
+  --gpt_version "gpt-4"
 ```
 
 ### Advanced Configuration
@@ -387,7 +398,7 @@ The Frontend Generator can also generate comprehensive test suites for your Reac
 
 ```bash
 # Generate comprehensive tests for all components
-python codes/generate_tests.py \
+python codes/4_testing.py \
   --project_name "MyProject" \
   --project_path "output/MyProject_frontend" \
   --requirements_path "requirements.md" \
@@ -408,7 +419,7 @@ python codes/generate_tests.py \
 
 ```bash
 # Generate specific test types
-python codes/generate_tests.py \
+python codes/4_testing.py \
   --project_name "TodoApp" \
   --project_path "output/TodoApp_frontend" \
   --requirements_path "examples/simple_todo_requirements.md" \

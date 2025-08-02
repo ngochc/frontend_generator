@@ -115,7 +115,7 @@ echo ""
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo "Generating test suite with vLLM..."
     
-    python ../codes/generate_tests_llm.py \
+    python ../codes/4_testing_llm.py \
         --project_name "$PROJECT_NAME" \
         --model_name "$MODEL_NAME" \
         --project_path "$REPO_OUTPUT_DIR/${PROJECT_NAME}_frontend" \

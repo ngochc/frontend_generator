@@ -116,7 +116,53 @@ frontend_generator/
 - OpenAI API key (for OpenAI models)
 - CUDA-compatible GPU (optional, for vLLM)
 
-### Setup
+### Setup Options
+
+#### Option 1: Using asdf (Recommended)
+
+[asdf](https://asdf-vm.com/) is a version manager that allows you to manage multiple runtime versions with a single CLI tool.
+
+1. **Install asdf** (if not already installed)
+   ```bash
+   # macOS
+   brew install asdf
+   
+   # Ubuntu/Debian
+   git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
+   echo '. ~/.asdf/asdf.sh' >> ~/.bashrc
+   echo '. ~/.asdf/completions/asdf.bash' >> ~/.bashrc
+   source ~/.bashrc
+   
+   # For other systems, see: https://asdf-vm.com/guide/getting-started.html
+   ```
+
+2. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/frontend_generator.git
+   cd frontend_generator
+   ```
+
+3. **Create .tool-versions file**
+   ```bash
+   echo "python 3.11.7" > .tool-versions
+   ```
+
+4. **Install Python plugin and version**
+   ```bash
+   asdf plugin add python
+   asdf install python 3.11.7
+   asdf local python 3.11.7
+   ```
+
+5. **Create virtual environment and install dependencies**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install --upgrade pip
+   pip install -r requirements.txt
+   ```
+
+#### Option 2: Traditional Setup
 
 1. **Clone the repository**
    ```bash
@@ -129,6 +175,8 @@ frontend_generator/
    pip install -r requirements.txt
    ```
 
+### Common Setup Steps (Both Options)
+
 3. **Set up environment variables**
    ```bash
    export OPENAI_API_KEY="your-openai-api-key"
@@ -138,6 +186,21 @@ frontend_generator/
    ```bash
    python codes/utils.py --test
    ```
+
+### asdf Configuration File
+
+For teams using asdf, you can also create a `.asdfrc` file in the project root:
+
+```bash
+# .asdfrc
+legacy_version_file = yes
+```
+
+And optionally add a `.python-version` file for compatibility:
+
+```bash
+echo "3.11.7" > .python-version
+```
 
 ## 🚀 Quick Start
 

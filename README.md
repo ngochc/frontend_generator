@@ -96,6 +96,9 @@ frontend_generator/
 │   ├── 2_analyzing_llm.py     # Analysis with vLLM support
 │   ├── 3_coding.py            # Coding stage implementation
 │   ├── 3_coding_llm.py        # Coding with vLLM support
+│   ├── generate_tests.py      # Test generation with OpenAI
+│   ├── generate_tests_llm.py  # Test generation with vLLM
+│   ├── code_review.py         # AI-powered code review
 │   └── utils.py               # Shared utilities
 ├── examples/                   # Sample requirements
 │   ├── dashboard_requirements.md
@@ -105,7 +108,8 @@ frontend_generator/
 │   ├── run_frontend.sh        # Full pipeline with OpenAI
 │   └── run_frontend_llm.sh    # Full pipeline with vLLM
 ├── PROMPT_STRUCTURE.md         # Detailed prompt engineering guide
-└── requirements.txt            # Python dependencies
+├── .tool-versions             # asdf version management
+└── requirements.txt           # Python dependencies
 ```
 
 ## 🔧 Installation
@@ -242,6 +246,26 @@ echo "3.11.7" > .python-version
    # You'll see: components/, pages/, styles/, types/, etc.
    ```
 
+4. **Build and test the generated project**:
+   ```bash
+   cd output/MyTodoApp_frontend
+   npm install
+   npm start
+   # Application runs at http://localhost:3000
+   ```
+
+5. **Generate tests using LLM** (optional):
+   ```bash
+   # Generate comprehensive test suite
+   python ../codes/generate_tests.py \
+     --project_name "MyTodoApp" \
+     --project_path "output/MyTodoApp_frontend" \
+     --test_types "unit,integration,e2e"
+   
+   # Run the generated tests
+   npm test
+   ```
+
 ## 📖 Usage
 
 ### Individual Stage Execution
@@ -330,6 +354,179 @@ bash scripts/run_frontend.sh \
   --project_name "TradingDashboard" \
   --requirements_path "examples/trading_platform_requirements.md"
 ```
+
+## 🧪 Testing & Validation
+
+After generating your React application, you can build, test, and validate the code using both traditional methods and AI-powered testing.
+
+### Build and Run Generated Project
+
+```bash
+# Navigate to generated project
+cd output/MyProject_frontend
+
+# Install dependencies
+npm install
+
+# Start development server
+npm start
+# Application runs at http://localhost:3000
+
+# Build for production
+npm run build
+
+# Run existing tests (if any)
+npm test
+```
+
+### AI-Powered Test Generation
+
+The Frontend Generator can also generate comprehensive test suites for your React components using LLM assistance.
+
+#### Generate Test Suite
+
+```bash
+# Generate comprehensive tests for all components
+python codes/generate_tests.py \
+  --project_name "MyProject" \
+  --project_path "output/MyProject_frontend" \
+  --requirements_path "requirements.md" \
+  --test_types "unit,integration,e2e" \
+  --test_framework "jest" \
+  --gpt_version "gpt-4"
+```
+
+#### Test Types Supported
+
+- **Unit Tests**: Individual component testing with React Testing Library
+- **Integration Tests**: Component interaction and data flow testing
+- **E2E Tests**: End-to-end user journey testing with Playwright/Cypress
+- **Accessibility Tests**: WCAG compliance and screen reader compatibility
+- **Performance Tests**: Load time and rendering performance
+
+#### Sample Test Generation Command
+
+```bash
+# Generate specific test types
+python codes/generate_tests.py \
+  --project_name "TodoApp" \
+  --project_path "output/TodoApp_frontend" \
+  --requirements_path "examples/simple_todo_requirements.md" \
+  --test_types "unit,integration" \
+  --test_framework "jest" \
+  --include_accessibility true \
+  --coverage_threshold 80
+```
+
+### Code Quality Validation
+
+#### Lint and Format Generated Code
+
+```bash
+cd output/MyProject_frontend
+
+# Install development dependencies
+npm install --save-dev eslint prettier @typescript-eslint/parser
+
+# Run ESLint
+npx eslint src/ --ext .ts,.tsx
+
+# Format with Prettier
+npx prettier --write src/
+
+# Type checking
+npx tsc --noEmit
+```
+
+#### AI Code Review
+
+```bash
+# Get AI-powered code review and suggestions
+python codes/code_review.py \
+  --project_path "output/MyProject_frontend" \
+  --review_focus "performance,accessibility,security" \
+  --output_format "markdown"
+```
+
+### Performance Testing
+
+#### Bundle Analysis
+
+```bash
+cd output/MyProject_frontend
+
+# Install bundle analyzer
+npm install --save-dev webpack-bundle-analyzer
+
+# Analyze bundle size
+npm run build
+npx webpack-bundle-analyzer build/static/js/*.js
+```
+
+#### Lighthouse Audit
+
+```bash
+# Run Lighthouse audit
+npm install -g lighthouse
+
+# Audit the running application
+lighthouse http://localhost:3000 --output html --output-path ./lighthouse-report.html
+```
+
+### Continuous Integration Setup
+
+#### GitHub Actions Workflow
+
+```yaml
+# .github/workflows/test-generated-app.yml
+name: Test Generated React App
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: |
+          cd output/MyProject_frontend
+          npm ci
+      
+      - name: Run tests
+        run: |
+          cd output/MyProject_frontend
+          npm test -- --coverage --watchAll=false
+      
+      - name: Build application
+        run: |
+          cd output/MyProject_frontend
+          npm run build
+      
+      - name: Run E2E tests
+        run: |
+          cd output/MyProject_frontend
+          npm run test:e2e
+```
+
+### Validation Checklist
+
+After generation and testing, verify your React application meets these criteria:
+
+- [ ] **Build Success**: `npm run build` completes without errors
+- [ ] **Test Coverage**: Unit tests achieve >80% coverage
+- [ ] **Type Safety**: TypeScript compilation passes without errors
+- [ ] **Accessibility**: WCAG AA compliance verified
+- [ ] **Performance**: Lighthouse score >90 for Performance
+- [ ] **Security**: No high-severity vulnerabilities in `npm audit`
+- [ ] **Browser Compatibility**: Works in modern browsers (Chrome, Firefox, Safari, Edge)
+- [ ] **Responsive Design**: Mobile and desktop layouts render correctly
+- [ ] **State Management**: Global and local state behaves as expected
+- [ ] **API Integration**: Data fetching and error handling work properly
 
 ## 🎨 Prompt Engineering
 

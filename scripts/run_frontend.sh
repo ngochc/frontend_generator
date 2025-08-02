@@ -105,9 +105,37 @@ echo "=============================================="
 echo "📁 Project Location: $REPO_OUTPUT_DIR/${PROJECT_NAME}_frontend"
 echo "📊 Artifacts: $OUTPUT_DIR"
 echo ""
+
+# Optional Stage 4: Test Generation
+echo "🧪 Stage 4: Test Suite Generation (Optional)"
+echo "-------------------------------------------"
+read -p "Generate comprehensive test suite? (y/n): " -n 1 -r
+echo ""
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo "Generating test suite with OpenAI..."
+    
+    python ../codes/generate_tests.py \
+        --project_name "$PROJECT_NAME" \
+        --gpt_version "gpt-4" \
+        --project_path "$REPO_OUTPUT_DIR/${PROJECT_NAME}_frontend" \
+        --requirements_path "$REQUIREMENTS_PATH" \
+        --test_types "unit,integration" \
+        --test_framework "jest"
+
+    if [ $? -eq 0 ]; then
+        echo "✅ Test generation completed successfully"
+    else
+        echo "⚠️ Test generation failed, but main application is ready"
+    fi
+    echo ""
+fi
+
 echo "🚀 To run your generated React application:"
 echo "   cd $REPO_OUTPUT_DIR/${PROJECT_NAME}_frontend"
 echo "   npm install"
 echo "   npm start"
+echo ""
+echo "🧪 To run tests (if generated):"
+echo "   npm test"
 echo ""
 echo "🌐 The application will be available at http://localhost:3000"

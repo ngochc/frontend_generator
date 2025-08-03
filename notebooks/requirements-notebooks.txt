@@ -1,0 +1,57 @@
+# Frontend Generator Notebooks - Dependencies
+# Install with: pip install -r requirements-notebooks.txt
+
+# Core AI/ML Libraries
+vllm>=0.3.0                    # Local model inference (primary)
+transformers>=4.35.0           # HuggingFace transformers
+torch>=2.0.0                   # PyTorch for model operations
+accelerate>=0.25.0             # Model acceleration
+tokenizers>=0.15.0             # Fast tokenization
+
+# OpenAI Integration (backup/alternative)
+openai>=1.10.0                 # OpenAI API client
+tiktoken>=0.5.0                # OpenAI tokenizer
+
+# Jupyter Notebook Support
+jupyter>=1.0.0                 # Jupyter notebook
+ipywidgets>=8.0.0              # Interactive widgets
+ipython>=8.0.0                 # Enhanced Python shell
+
+# System and Environment
+python-dotenv>=1.0.0           # Environment variable management
+psutil>=5.9.0                  # System resource monitoring
+tqdm>=4.65.0                   # Progress bars
+pathlib                        # Path handling (built-in but explicit)
+
+# Text Processing and Utilities
+colorama>=0.4.6                # Colored terminal output
+rich>=13.0.0                   # Beautiful terminal formatting
+regex>=2023.0.0                # Enhanced regex support
+
+# File and Data Handling
+markdown>=3.5.0                # Markdown processing
+pyyaml>=6.0                    # YAML file handling
+json5>=0.9.0                   # Enhanced JSON support
+
+# Cloud Platform Support
+google-colab                   # Google Colab integration (auto-installed in Colab)
+kaggle>=1.5.0                  # Kaggle API and utilities
+
+# Development and Testing (optional)
+pytest>=7.0.0                  # Testing framework
+black>=23.0.0                  # Code formatting
+flake8>=6.0.0                  # Code linting
+
+# Optional: Enhanced Model Support
+sentence-transformers>=2.2.0   # Sentence embeddings
+einops>=0.7.0                  # Tensor operations
+safetensors>=0.4.0             # Safe tensor serialization
+
+# Platform-specific optimizations
+# For Mac M1/M2 users:
+# torch-audio  # Uncomment if needed
+# torchaudio   # Uncomment if needed
+
+# GPU Support (automatically handled by torch)
+# For CUDA: torch with CUDA support will be auto-detected
+# For Mac MPS: torch with MPS support will be auto-detected

@@ -7,6 +7,7 @@ A sophisticated AI-powered tool that automatically generates production-ready Re
 - [Overview](#-overview)
 - [Features](#-features)  
 - [Architecture](#-architecture)
+- [Notebooks](#-notebooks)
 - [Installation](#-installation)
 - [Quick Start](#-quick-start)
 - [Usage](#-usage)
@@ -107,7 +108,86 @@ frontend_generator/
 ├── scripts/                    # Automation scripts
 │   ├── run_frontend.sh        # Full pipeline with OpenAI
 │   └── run_frontend_llm.sh    # Full pipeline with vLLM
+├── notebooks/                  # Jupyter notebooks for different platforms
+│   ├── Frontend_Generator_Mac_Local.ipynb      # Local execution (Mac optimized)
+│   ├── Frontend_Generator_Google_Colab.ipynb   # Google Colab cloud execution
+│   ├── Frontend_Generator_Kaggle.ipynb         # Kaggle platform execution
+│   ├── requirements-notebooks.txt              # Notebook dependencies
+│   ├── setup.py                               # Cross-platform setup script
+│   ├── setup.sh                               # Unix setup script
+│   ├── setup.bat                              # Windows setup script
+│   └── README.md                              # Notebook documentation
 ├── PROMPT_STRUCTURE.md         # Detailed prompt engineering guide
+├── .tool-versions             # asdf version management
+└── requirements.txt           # Python dependencies
+```
+
+## 📚 Notebooks
+
+### 🎯 Interactive Development Environment
+
+The `notebooks/` directory contains Jupyter notebooks optimized for different platforms, making it easy to run the Frontend Generator in various environments:
+
+#### 🍎 **Mac Local** (`Frontend_Generator_Mac_Local.ipynb`)
+Perfect for Mac users with 18GB+ RAM who want complete local control:
+- ✅ **Zero API costs** - runs entirely locally using vLLM
+- ✅ **Complete privacy** - your code never leaves your machine
+- ✅ **MPS acceleration** - optimized for Mac M1/M2 chips
+- ✅ **Conservative memory management** - 70% GPU utilization for stability
+- ✅ **Model caching** - reuse downloaded models across sessions
+- ✅ **Offline capable** - works without internet after initial setup
+
+#### ☁️ **Google Colab** (`Frontend_Generator_Google_Colab.ipynb`)
+Ideal for users who want powerful cloud GPUs with Google Drive integration:
+- ✅ **Free GPU access** - Access to T4, A100 GPUs 
+- ✅ **Google Drive sync** - persistent storage across sessions
+- ✅ **No local setup** - runs entirely in your browser
+- ✅ **Collaborative** - easy sharing with team members
+- ✅ **Automatic downloads** - projects download directly to your computer
+
+#### 🏆 **Kaggle** (`Frontend_Generator_Kaggle.ipynb`)
+Best for competition-grade GPUs and extended compute sessions:
+- ✅ **Powerful GPUs** - Often better than Colab (T4, P100, A100)
+- ✅ **Long sessions** - 12+ hour compute time
+- ✅ **Fast storage** - NVMe SSD for quick model loading
+- ✅ **Community integration** - share with Kaggle community
+- ✅ **Dataset access** - integrate with public datasets
+
+### 🚀 Quick Start with Notebooks
+
+1. **Navigate to notebooks directory**:
+   ```bash
+   cd notebooks/
+   ```
+
+2. **Run setup script**:
+   ```bash
+   # Cross-platform Python script
+   python setup.py
+   
+   # Or platform-specific scripts
+   ./setup.sh          # macOS/Linux
+   setup.bat            # Windows
+   ```
+
+3. **Start Jupyter**:
+   ```bash
+   jupyter notebook
+   ```
+
+4. **Choose your notebook** based on your environment and follow the interactive instructions.
+
+### 📋 Notebook Features
+
+All notebooks include:
+- 🔧 **Automated setup** - dependency installation and environment configuration
+- 🤖 **Model selection** - automatic optimization based on your hardware
+- 📝 **Interactive requirements** - easy project specification
+- ⚡ **Real-time generation** - watch your React app being built
+- 🧪 **Testing integration** - validate generated components
+- 📥 **Easy downloads** - get your complete project files
+
+For detailed notebook documentation, see [`notebooks/README.md`](notebooks/README.md).
 ├── .tool-versions             # asdf version management
 └── requirements.txt           # Python dependencies
 ```
